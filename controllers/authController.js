@@ -39,7 +39,7 @@ exports.login = CreateAsync(async (req, res, next) => {
   const token = signToken(user);
   res.cookie("token", token, {
     httpOnly: true,
-    secure: false,
+    secure: true,
     sameSite: "lax",
     maxAge: 7 * 24 * 60 * 60 * 1000
   });
