@@ -18,7 +18,9 @@ app.use(cookieParser());
 // app.use('/img',express.static('public/img/product'))
 app.use('/auth',authRouter);
 app.use('/api/v1/blogs',postRouter);
-
+app.get('/', (req, res) => {
+  res.json({ message: 'Hello from Express on Vercel!' });
+})
 
 app.all('/*splat', (req, res,next) => {
 next(new AppError(`Cannot find ${req.originalUrl} route on this server`,404));
