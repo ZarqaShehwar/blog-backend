@@ -7,11 +7,12 @@ const authRouter = require('./routes/authRoutes');
 const postRouter = require('./routes/postRoutes');
 
 const app = express();
-
-app.use(cors({
- origin: [process.env.CORS_ORIGIN_FRONTEND_PROD, process.env.CORS_ORIGIN_FRONTEND_LOCAL],
-  credentials: true,               
-}));
+console.log(process.env.CORS_ORIGIN_FRONTEND_PROD);
+// {
+//  origin: [process.env.CORS_ORIGIN_FRONTEND_PROD, process.env.CORS_ORIGIN_FRONTEND_LOCAL],
+//   credentials: true,               
+// }
+app.use(cors());
 app.use(express.json());
 app.use(cookieParser());
 
