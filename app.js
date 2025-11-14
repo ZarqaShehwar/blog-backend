@@ -9,7 +9,7 @@ const postRouter = require('./routes/postRoutes');
 const app = express();
 
 app.use(cors({
-  origin: "http://localhost:3000", 
+ origin: [process.env.CORS_ORIGIN_FRONTEND_PROD, process.env.CORS_ORIGIN_FRONTEND_LOCAL],
   credentials: true,               
 }));
 app.use(express.json());
