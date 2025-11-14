@@ -9,10 +9,27 @@ const postRouter = require('./routes/postRoutes');
 const app = express();
 console.log(process.env.CORS_ORIGIN_FRONTEND_PROD);
 
-app.use(cors({
- origin: [process.env.CORS_ORIGIN_FRONTEND_PROD, process.env.CORS_ORIGIN_FRONTEND_LOCAL],
-  credentials: true,               
-}));
+
+// Define your allowed origin
+const allowedOrigins = ['https://blogapp-tau-beryl.vercel.app'];
+
+const corsOptions = {
+  origin: function (origin, callback) {
+    // Check if the request's origin is in our allowed list
+    if (allowedOrigins.indexOf(origin) !== -1 || !origin) {
+      // Allow the request
+      callback(null, true);
+    } else {
+      // Block the request
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
+  credentials: true, // This is the key! It allows cookies to be sent.
+  optionsSuccessStatus: 200 // For legacy browser support
+};
+
+// Use the cors middleware with these options
+app.use(cors(corsOptions));
 app.use(express.json());
 app.use(cookieParser());
 
