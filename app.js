@@ -7,7 +7,10 @@ const authRouter = require('./routes/authRoutes');
 const postRouter = require('./routes/postRoutes');
 
 const app = express();
-const allowedOrigins = ['https://blogapp-tau-beryl.vercel.app','http://localhost:3000'];
+const allowedOrigins = [
+  process.env.CORS_ORIGIN_FRONTEND_PROD, 
+   process.env.CORS_ORIGIN_FRONTEND_LOCAL
+];
 
 const corsOptions = {
   origin: function (origin, callback) {
