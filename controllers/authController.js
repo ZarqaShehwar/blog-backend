@@ -39,6 +39,7 @@ exports.login = CreateAsync(async (req, res, next) => {
   const token = signToken(user);
   res.cookie("token", token, {
     httpOnly: true,
+    domain:".example.com",
     secure: process.env.NODE_ENV === 'production',
     sameSite: "none",
     maxAge: 7 * 24 * 60 * 60 * 1000
