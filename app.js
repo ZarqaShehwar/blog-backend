@@ -14,18 +14,19 @@ const allowedOrigins = [
 
 const corsOptions = {
   origin: function (origin, callback) {
-    console.log( process.env.CORS_ORIGIN_FRONTEND_PROD, 
-   process.env.CORS_ORIGIN_FRONTEND_LOCAL,"Origins are thereee ");
+    console.log("Request origin:", origin);
+    console.log("Allowed origins:", allowedOrigins);
     
     if (allowedOrigins.indexOf(origin) !== -1 || !origin) {
       callback(null, true);
     } else {
+      console.log("Blocked by CORS!");
       callback(new Error('Not allowed by CORS'));
     }
   },
-  credentials: true, 
-  optionsSuccessStatus: 200 
+  credentials: true,
 };
+
 
 app.use(cors(corsOptions));
 app.use(express.json());
