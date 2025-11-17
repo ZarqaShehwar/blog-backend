@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const slugify = require('slugify');
+const { trim } = require('validator');
 
 const postSchema = new mongoose.Schema(
   {
@@ -18,6 +19,7 @@ const postSchema = new mongoose.Schema(
     content: {
       type: String,
       required: [true, "Content is required"],
+      trim:true
     },
 
     authorId: {
