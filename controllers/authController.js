@@ -65,10 +65,10 @@ exports.getLoginUser = CreateAsync(async (req, res, next) => {
 exports.logout = CreateAsync(async (req, res) => {
   const userId = req.user?._id;
   await User.findByIdAndUpdate(userId, { $inc: { tokenVersion: 1 } });
-  res.cookie("token", "", {
+  res.clearCookie("token", "", {
     httpOnly: true,
     secure: false,
-    sameSite: "lax",
+    sameSite: "none",
     maxAge: 0
   });
   res.json({ message: "Logged out successfully" });
@@ -76,12 +76,10 @@ exports.logout = CreateAsync(async (req, res) => {
 
 exports.protectRouteMiddleware = CreateAsync(async (req, res, next) => {
   let token;
-  if (
-    req.headers.authorization ||
-    req.headers.authorization?.startsWith('Bearer')
-  ) {
-    token = req.headers.authorization.split(' ')[1];
-  }
+  if (req.headers.authorization?.startsWith('Bearer')) {
+  token = req.headers.authorization.split(' ')[1];
+}
+
   if (!token && req.cookies?.token) {
     token = req.cookies.token;
   }
