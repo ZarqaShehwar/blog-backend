@@ -65,10 +65,12 @@ exports.getLoginUser = CreateAsync(async (req, res, next) => {
 exports.logout = CreateAsync(async (req, res) => {
   const userId = req.user?._id;
   await User.findByIdAndUpdate(userId, { $inc: { tokenVersion: 1 } });
-  res.clearCookie("token", {
-    path:'/',
-    domain:'.blog-backend-production-160d.up.railway.app'
-  });
+res.clearCookie("token", {
+  httpOnly: true,
+  secure: process.env.NODE_ENV === 'production',
+  sameSite: "none",
+  path: "/",
+});
   res.json({ message: "Logged out successfully" });
 })
 
