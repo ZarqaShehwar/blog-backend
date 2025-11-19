@@ -39,7 +39,7 @@ exports.login = CreateAsync(async (req, res, next) => {
   const token = signToken(user);
   res.cookie("token", token, {
     httpOnly: true,
-    // domain: ".vercel.app",
+   domain: ".myblogapp.tech",
     secure: process.env.NODE_ENV === 'production',
     sameSite: "none",
     maxAge: 7 * 24 * 60 * 60 * 1000
@@ -67,6 +67,7 @@ exports.logout = CreateAsync(async (req, res) => {
   await User.findByIdAndUpdate(userId, { $inc: { tokenVersion: 1 } });
 res.clearCookie("token", {
   httpOnly: true,
+  domain: ".myblogapp.tech",
   secure: process.env.NODE_ENV === 'production',
   sameSite: "none",
   path: "/",
