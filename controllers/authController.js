@@ -9,23 +9,28 @@ const signToken = ({ _id, tokenVersion }) => {
   })
 }
 
-exports.signup = CreateAsync(async (req, res) => {
+exports.signup = CreateAsync(async (req, res, next) => {
   const payload = req.body;
+  const existingUser = await User.findOne({ email: payload.email });
+
+  if (existingUser) {
+    return next(new AppError("User with this email already exists", 400));
+  }
+
   const newUser = await User.create({
     name: payload.name,
     email: payload.email,
     password: payload.password,
     confirmPassword: payload.confirmPassword
-  })
+  });
+
   res.status(201).json({
     status: "success",
-    message: "User created Successfully",
-    data: {
-      newUser
-    }
-  })
+    message: "User created successfully",
+    data: { newUser }
+  });
+});
 
-})
 
 exports.login = CreateAsync(async (req, res, next) => {
   const { email, password } = req.body;
